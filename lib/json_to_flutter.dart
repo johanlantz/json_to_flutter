@@ -5,17 +5,32 @@ import 'package:json_to_flutter/builders/builders.dart';
 import 'package:json_to_flutter/states/input_state.dart';
 import 'package:provider/provider.dart';
 
+class JSONToFlutter {
+  static Map<String, Map<String, dynamic>> _contentMapper = {};
 
+  static Widget getPage() {
+    return _JSONToFlutterPage();
+  }
 
-class JSONToFlutterPage extends StatefulWidget {
+  static setContent(String key, dynamic value) {
+    _contentMapper[key] = value;
+  }
+
+  /// App can assign a custom "not_found" page to show in case of an error.
+  static Map<String, dynamic> getContent(String key) {
+    return _contentMapper[key] ?? _contentMapper['not_found'] ?? {"Text": {"data": "$key Not found"}};
+  }
+}
+
+class _JSONToFlutterPage extends StatefulWidget {
   
-  JSONToFlutterPage();
+  _JSONToFlutterPage();
   
   @override
   _JSONToFlutterPageState createState() => _JSONToFlutterPageState();
 }
 
-class _JSONToFlutterPageState extends State<JSONToFlutterPage> with WidgetsBindingObserver {
+class _JSONToFlutterPageState extends State<_JSONToFlutterPage> with WidgetsBindingObserver {
 
   @override
   void initState() {

@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 
-import '../pages.dart';
+import '../json_to_flutter.dart';
 
 class InputState with ChangeNotifier {
   Map<String, dynamic> inputState = {};
@@ -58,7 +58,7 @@ class InputState with ChangeNotifier {
   }
 
   Map<String, dynamic> getCurrentPage()  {
-    return contentMapper[navigationStack.last];
+    return JSONToFlutter.getContent(navigationStack.last);
   }
 
   submit(Map<String, dynamic> data) {
