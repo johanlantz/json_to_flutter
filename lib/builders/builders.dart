@@ -55,10 +55,8 @@ final Map<String, WidgetBuilderBase> _builderMap = {
 
  
 WidgetBuilderBase getBuilder(Map<String, dynamic> obj) {
-  var widgetBuilder = obj != null ? _builderMap[obj.keys.first] : DummyBuilder();
-  if (widgetBuilder is DummyBuilder) {
-    return widgetBuilder;
-  }
+  var widgetBuilder = _builderMap[obj.keys.first];
+  assert(widgetBuilder != null, '-->${obj.keys.first}<-- is not a widget we recognize. Did you remember to register it.');
   Map innerObject = obj[obj.keys.first];
   if (innerObject.keys.length > 0) {
     widgetBuilder.assignInnerObject(innerObject);
