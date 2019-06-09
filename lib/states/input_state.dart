@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 
 import '../json_to_flutter.dart';
 
@@ -8,9 +9,12 @@ class InputState with ChangeNotifier {
 
   List<String> navigationStack = ['firstPage'];
 
+  bool isEjecting = false;
+
   InputState() {
     funcMap['submit'] = submit;
     funcMap['navigate'] = navigate;
+    funcMap['eject'] = eject;
   }
   
   dispose() {
@@ -47,6 +51,12 @@ class InputState with ChangeNotifier {
       navigationStack = [];
     }
     navigationStack.add(data['destination']);
+    notifyListeners();
+  }
+
+  eject(Map<String, dynamic> data) {
+    navigationStack.add(data['destination']);
+    isEjecting = true;
     notifyListeners();
   }
 

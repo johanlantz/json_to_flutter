@@ -13,7 +13,7 @@ class JSONToFlutter {
             builder: (context) => _inputState,
             child: _thePage);
 
-  static Widget getPage(String contentKey) {
+  static Widget setRootPage(String contentKey) {
     _inputState.setRootPage(contentKey);
     return provider;
   }
@@ -60,7 +60,9 @@ class _JSONToFlutterPageState extends State<_JSONToFlutterPage> with WidgetsBind
   @override
   Widget build(BuildContext context) {
     var inputState = Provider.of<InputState>(context);
-    
+    if(inputState.isEjecting) {
+      Navigator.pushNamed(context, inputState.navigationStack.last);
+    }
     WidgetBuilderBase b = getBuilder(inputState.getCurrentPage());
 
     return b.build(context);
