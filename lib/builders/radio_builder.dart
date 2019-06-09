@@ -3,7 +3,7 @@ import '../states/input_state.dart';
 import 'package:provider/provider.dart';
 import 'builders.dart';
 
-class RadioBuilder extends WidgetBuilderBase {
+class RadioBuilder with WidgetBuilderBase {
 
   Widget build(BuildContext context) {
     var inputState = Provider.of<InputState>(context);

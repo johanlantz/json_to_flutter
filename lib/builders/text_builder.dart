@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'widget_builder_base.dart';
 
-class TextBuilder extends WidgetBuilderBase {
+class TextBuilder with WidgetBuilderBase {
   @override
   Widget build(BuildContext context) {
     

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'widget_builder_base.dart';
 import 'builders.dart';
 
-class AlignBuilder extends WidgetBuilderBase{
+class AlignBuilder with WidgetBuilderBase{
   @override
   Widget build(BuildContext context) {
     assert(obj['alignment'] != null, 'Alignment attribute missing');

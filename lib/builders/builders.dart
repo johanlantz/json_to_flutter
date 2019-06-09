@@ -29,7 +29,7 @@ import 'container_builder.dart';
 import 'align_builder.dart';
 
 
-class DummyBuilder extends WidgetBuilderBase{
+class DummyBuilder with WidgetBuilderBase{
   @override
   Widget build(BuildContext context) {
     return Scaffold();

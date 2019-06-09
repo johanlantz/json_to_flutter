@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'builders.dart';
 
-class ScaffoldBuilder extends WidgetBuilderBase {
+class ScaffoldBuilder with WidgetBuilderBase {
 
   Widget build(BuildContext context) {
     return Scaffold(

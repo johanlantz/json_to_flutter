@@ -61,6 +61,10 @@ class InputState with ChangeNotifier {
     return JSONToFlutter.getContent(navigationStack.last);
   }
 
+  setRootPage(String contentKey)  {
+    navigationStack = [contentKey];
+  }
+
   submit(Map<String, dynamic> data) {
     inputState.keys.forEach((key) {
       print('Uploading ${inputState.toString()}');

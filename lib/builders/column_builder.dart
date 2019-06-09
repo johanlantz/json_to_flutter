@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'widget_builder_base.dart';
 import 'builders.dart';
 
-class ColumnBuilder extends WidgetBuilderBase {
+class ColumnBuilder with WidgetBuilderBase {
   @override
   Widget build(BuildContext context) {
     return Column(

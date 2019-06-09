@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'builders.dart';
 
-class AppBarBuilder extends WidgetBuilderBase {
+class AppBarBuilder with WidgetBuilderBase {
 
    Widget build(BuildContext context) {
 

@@ -4,7 +4,7 @@ import 'widget_builder_base.dart';
 import 'builders.dart';
 import 'objects/object_builders.dart';
 
-class ContainerBuilder extends WidgetBuilderBase {
+class ContainerBuilder with WidgetBuilderBase {
   @override
   Widget build(BuildContext context) {
     

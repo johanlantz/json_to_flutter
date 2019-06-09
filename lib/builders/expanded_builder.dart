@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'widget_builder_base.dart';
 import 'builders.dart';
 
-class ExpandedBuilder extends WidgetBuilderBase {
+class ExpandedBuilder with WidgetBuilderBase {
   @override
   Widget build(BuildContext context) {
     return Expanded(

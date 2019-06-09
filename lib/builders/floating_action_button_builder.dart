@@ -5,7 +5,7 @@ import 'builders.dart';
 import '../states/input_state.dart';
 
 
-class FloatingActionButtonBuilder extends WidgetBuilderBase {
+class FloatingActionButtonBuilder with WidgetBuilderBase {
   @override
   Widget build(BuildContext context) {
     return FloatingActionButton(

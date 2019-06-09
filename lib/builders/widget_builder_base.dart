@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-abstract class WidgetBuilderBase {
+mixin WidgetBuilderBase {
 
  Map<String, dynamic> obj;
 

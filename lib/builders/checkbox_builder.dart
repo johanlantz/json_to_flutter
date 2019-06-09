@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'widget_builder_base.dart';
 import 'builders.dart';
 
-class CheckboxBuilder extends WidgetBuilderBase {
+class CheckboxBuilder with WidgetBuilderBase {
   @override
   Widget build(BuildContext context) {
     var inputState = Provider.of<InputState>(context);

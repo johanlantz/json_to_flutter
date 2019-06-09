@@ -3,7 +3,7 @@ import 'builders.dart';
 import '../states/input_state.dart';
 import 'package:provider/provider.dart';
 
-class RaisedButtonBuilder extends WidgetBuilderBase {
+class RaisedButtonBuilder with WidgetBuilderBase {
 
   @override
   Widget build(BuildContext context) {
