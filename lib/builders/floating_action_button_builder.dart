@@ -14,7 +14,8 @@ class FloatingActionButtonBuilder with WidgetBuilderBase {
         var inputState = Provider.of<InputState>(context);
         var actions = obj['onPressed']['actions'] != null ? obj['onPressed']['actions'] : [];
         actions.forEach((action) {
-          inputState.performAction(action);  
+          inputState.performAction(action, context);
+
         });
       },
       tooltip: obj['tooltip'],

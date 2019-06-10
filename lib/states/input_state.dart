@@ -7,14 +7,11 @@ class InputState with ChangeNotifier {
   Map<String, dynamic> inputState = {};
   Map<String, Function> funcMap = {};
 
-  List<String> navigationStack = ['firstPage'];
-
-  bool isEjecting = false;
+  List<String> navigationStack = [];
 
   InputState() {
     funcMap['submit'] = submit;
     funcMap['navigate'] = navigate;
-    funcMap['eject'] = eject;
   }
   
   dispose() {
@@ -42,29 +39,36 @@ class InputState with ChangeNotifier {
 
   /// Action handling
 
-  performAction(Map<String, dynamic> action) {
-    funcMap[action['type']](action['data']); 
+  performAction(Map<String, dynamic> action, BuildContext context) {
+    funcMap[action['type']](action['data'], context); 
   }
 
-  navigate(Map<String, dynamic> data) {
+  navigate(Map<String, dynamic> data, BuildContext context) {
     if (data['setAsRoot'] == true) {
       navigationStack = [];
     }
-    navigationStack.add(data['destination']);
+
+    if(data['eject'] == true) {
+      Navigator.pushNamed(context, data['destination']);
+    } else {
+      navigationStack.add(data['destination']);
+    }
     notifyListeners();
   }
 
-  eject(Map<String, dynamic> data) {
-    navigationStack.add(data['destination']);
-    isEjecting = true;
-    notifyListeners();
+  canPop() {
+    return navigationStack.length > 1;
   }
 
   pop() {
-    if (navigationStack.length > 1) {
+    if (navigationStack.length > 0) {
       navigationStack.removeLast();
-      notifyListeners();
-    }
+      if (navigationStack.length > 0) {
+        notifyListeners();
+        return true;
+      }
+    } 
+    return false;
   }
 
   Map<String, dynamic> getCurrentPage()  {

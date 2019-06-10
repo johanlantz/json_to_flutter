@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
 
 mixin WidgetBuilderBase {
+  Map<String, dynamic> obj;
 
- Map<String, dynamic> obj;
+  assignInnerObject(Map<String, dynamic> obj) {
+    this.obj = obj;
+  }
 
-
- assignInnerObject(Map<String, dynamic> obj) {
-   this.obj = obj;
- }
-
-
- Widget build(BuildContext context);
+  Widget build(BuildContext context);
 }

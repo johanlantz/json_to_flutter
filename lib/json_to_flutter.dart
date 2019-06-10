@@ -7,15 +7,17 @@ import 'package:provider/provider.dart';
 
 class JSONToFlutter {
   static Map<String, Map<String, dynamic>> _contentMapper = {};
-  static InputState _inputState = InputState();
+  static InputState _inputState;
   static _JSONToFlutterPage _thePage = _JSONToFlutterPage();
   static ChangeNotifierProvider provider = ChangeNotifierProvider<InputState>(
-            builder: (context) => _inputState,
-            child: _thePage);
+      builder: (context) => _inputState, child: _thePage);
 
-  static Widget setRootPage(String contentKey) {
+  static Widget getPage(String contentKey) {
+    _inputState = InputState();
     _inputState.setRootPage(contentKey);
-    return provider;
+
+    return ChangeNotifierProvider<InputState>(
+        builder: (context) => _inputState, child: _JSONToFlutterPage());
   }
 
   static setContent(String key, dynamic value) {
@@ -24,47 +26,33 @@ class JSONToFlutter {
 
   /// App can assign a custom "not_found" page to show in case of an error.
   static Map<String, dynamic> getContent(String key) {
-    return _contentMapper[key] ?? _contentMapper['not_found'] ?? {"Text": {"data": "$key Not found"}};
+    return _contentMapper[key] ??
+        _contentMapper['not_found'] ??
+        {
+          "Text": {"data": "$key Not found"}
+        };
   }
 }
 
 class _JSONToFlutterPage extends StatefulWidget {
-  
   _JSONToFlutterPage();
-  
+
   @override
   _JSONToFlutterPageState createState() => _JSONToFlutterPageState();
 }
 
-class _JSONToFlutterPageState extends State<_JSONToFlutterPage> with WidgetsBindingObserver {
-
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addObserver(this);
-  }
-
-  @override
-  void dispose() {
-    WidgetsBinding.instance.removeObserver(this);
-    super.dispose();
-  }
-
-  @override
-  didPopRoute(){
-    var inputState = Provider.of<InputState>(context);
-    inputState.pop();
-    return new Future<bool>.value(true);
-  }
-
+/// 1. Manage building all dynamic content 
+/// 2. Control popping dynamic pages. We maintain an internal navigation stack until we reach
+/// the bottom, then we let the system control the popping in case there are other pages beneath.
+class _JSONToFlutterPageState extends State<_JSONToFlutterPage> {
   @override
   Widget build(BuildContext context) {
     var inputState = Provider.of<InputState>(context);
-    if(inputState.isEjecting) {
-      Navigator.pushNamed(context, inputState.navigationStack.last);
-    }
     WidgetBuilderBase b = getBuilder(inputState.getCurrentPage());
-
-    return b.build(context);
+    return WillPopScope(
+        onWillPop: () async {
+          bool didPop = inputState.pop();
+          return !didPop;
+        }, child: b.build(context));
   }
 }

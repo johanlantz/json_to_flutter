@@ -12,7 +12,7 @@ class RaisedButtonBuilder with WidgetBuilderBase {
         var inputState = Provider.of<InputState>(context);
         var actions = obj['onPressed']['actions'] != null ? obj['onPressed']['actions'] : [];
         actions.forEach((action) {
-          inputState.performAction(action);  
+          inputState.performAction(action, context);  
         });
       },
       child: getBuilder(obj['child']).build(context),
