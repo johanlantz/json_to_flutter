@@ -7,17 +7,12 @@ import 'package:provider/provider.dart';
 
 class JSONToFlutter {
   static Map<String, Map<String, dynamic>> _contentMapper = {};
-  static InputState _inputState;
-  static _JSONToFlutterPage _thePage = _JSONToFlutterPage();
-  static ChangeNotifierProvider provider = ChangeNotifierProvider<InputState>(
-      builder: (context) => _inputState, child: _thePage);
 
   static Widget getPage(String contentKey) {
-    _inputState = InputState();
-    _inputState.setRootPage(contentKey);
-
+    InputState inputState = InputState();
+    inputState.setRootPage(contentKey);
     return ChangeNotifierProvider<InputState>(
-        builder: (context) => _inputState, child: _JSONToFlutterPage());
+        builder: (context) => inputState, child: _JSONToFlutterPage());
   }
 
   static setContent(String key, dynamic value) {
