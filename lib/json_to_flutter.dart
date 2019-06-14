@@ -1,6 +1,6 @@
 library json_to_flutter;
 
-import 'package:flutter/material.dart';
+import 'package:flutter_web/material.dart';
 import 'package:json_to_flutter/builders/builders.dart';
 import 'package:json_to_flutter/states/input_state.dart';
 import 'package:provider/provider.dart';

@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter_web/material.dart';
 
 mixin WidgetBuilderBase {
   Map<String, dynamic> obj;

@@ -10,7 +10,7 @@ export 'raised_button_builder.dart';
 export 'checkbox_builder.dart';
 export 'radio_builder.dart';
 
-import 'package:flutter/material.dart';
+import 'package:flutter_web/material.dart';
 import 'widget_builder_base.dart';
 import 'scaffold_builder.dart';
 import 'app_bar_builder.dart';
