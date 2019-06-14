@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 class JSONToFlutter {
   static Map<String, Map<String, dynamic>> _contentMapper = {};
 
+  /// Get a new dynamic page using contentKey as root
   static Widget getPage(String contentKey) {
     InputState inputState = InputState();
     inputState.setRootPage(contentKey);
@@ -15,7 +16,8 @@ class JSONToFlutter {
         builder: (context) => inputState, child: _JSONToFlutterPage());
   }
 
-  static setContent(String key, dynamic value) {
+
+  static registerContent(String key, dynamic value) {
     _contentMapper[key] = value;
   }
 
@@ -36,7 +38,7 @@ class _JSONToFlutterPage extends StatefulWidget {
   _JSONToFlutterPageState createState() => _JSONToFlutterPageState();
 }
 
-/// 1. Manage building all dynamic content 
+/// 1. Manage building all dynamic content
 /// 2. Control popping dynamic pages. We maintain an internal navigation stack until we reach
 /// the bottom, then we let the system control the popping in case there are other pages beneath.
 class _JSONToFlutterPageState extends State<_JSONToFlutterPage> {
@@ -48,6 +50,7 @@ class _JSONToFlutterPageState extends State<_JSONToFlutterPage> {
         onWillPop: () async {
           bool didPop = inputState.pop();
           return !didPop;
-        }, child: b.build(context));
+        },
+        child: b.build(context));
   }
 }
