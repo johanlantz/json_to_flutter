@@ -5,29 +5,16 @@ import 'package:json_to_flutter/builders/builders.dart';
 import 'package:json_to_flutter/states/input_state.dart';
 import 'package:provider/provider.dart';
 
+import 'content/content_registry.dart';
+
 class JSONToFlutter {
-  static Map<String, Map<String, dynamic>> _contentMapper = {};
 
   /// Get a new dynamic page using contentKey as root
-  static Widget getPage(String contentKey) {
-    InputState inputState = InputState();
+  static Widget getPage(String contentKey, ContentRegistry contentRegistry) {
+    InputState inputState = InputState(contentRegistry);
     inputState.setRootPage(contentKey);
     return ChangeNotifierProvider<InputState>(
         builder: (context) => inputState, child: _JSONToFlutterPage());
-  }
-
-
-  static registerContent(String key, dynamic value) {
-    _contentMapper[key] = value;
-  }
-
-  /// App can assign a custom "not_found" page to show in case of an error.
-  static Map<String, dynamic> getContent(String key) {
-    return _contentMapper[key] ??
-        _contentMapper['not_found'] ??
-        {
-          "Text": {"data": "$key Not found"}
-        };
   }
 }
 

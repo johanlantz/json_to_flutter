@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../json_to_flutter.dart';
+import 'package:json_to_flutter/content/content_registry.dart';
 
 class InputState with ChangeNotifier {
   Map<String, dynamic> inputState = {};
@@ -8,7 +7,9 @@ class InputState with ChangeNotifier {
 
   List<String> navigationStack = [];
 
-  InputState() {
+  ContentRegistry _contentRegistry;
+  InputState(ContentRegistry contentRegistry) {
+    _contentRegistry = contentRegistry;
     funcMap['submit'] = submit;
     funcMap['navigate'] = navigate;
   }
@@ -71,7 +72,7 @@ class InputState with ChangeNotifier {
   }
 
   Map<String, dynamic> getCurrentPage()  {
-    return JSONToFlutter.getContent(navigationStack.last);
+    return _contentRegistry.getContent(navigationStack.last);
   }
 
   setRootPage(String contentKey)  {
