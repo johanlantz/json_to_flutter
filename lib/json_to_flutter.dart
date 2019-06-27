@@ -10,11 +10,16 @@ import 'content/content_registry.dart';
 class JSONToFlutter {
 
   /// Get a new dynamic page using contentKey as root
+  /// Provide a custom contentRegistry or use on of the supplied ones in /content
   static Widget getPage(String contentKey, ContentRegistry contentRegistry) {
     InputState inputState = InputState(contentRegistry);
     inputState.setRootPage(contentKey);
     return ChangeNotifierProvider<InputState>(
         builder: (context) => inputState, child: _JSONToFlutterPage());
+  }
+
+  static registerWidget(String widgetName, WidgetBuilderBase builder) {
+    registerExternalWidget(widgetName, builder);
   }
 }
 
