@@ -8,7 +8,7 @@ class RadioBuilder with WidgetBuilderBase {
   Widget build(BuildContext context) {
     var inputState = Provider.of<InputState>(context);
     return Radio(
-      activeColor: obj['activeColor'] != null ? Color(obj['activeColor']) : Theme.of(context).toggleableActiveColor,
+      activeColor: obj['activeColor'] != null ? Color(getNumber(obj['activeColor'])) : Theme.of(context).toggleableActiveColor,
       value: obj['value'],
       groupValue: inputState.getStateForKey(obj['groupValue']),
       onChanged: (newValue) {

@@ -18,7 +18,7 @@ class ContainerBuilder with WidgetBuilderBase {
       );
     } else {
       return Container(
-        color: obj['color'] != null ? Color(obj['color']) : null,
+        color: obj['color'] != null ? Color(getNumber(obj['color'])) : null,
         margin: obj['margin'] != null ? getObjectBuilder(obj['margin']).build() : EdgeInsets.all(0),
         padding: obj['margin'] != null ? getObjectBuilder(obj['margin']).build() : EdgeInsets.all(0),
         child: getBuilder(obj['child']).build(context));

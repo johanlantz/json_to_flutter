@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:json_to_flutter/actions/action_handler_registry.dart';
 import 'package:provider/provider.dart';
 import 'widget_builder_base.dart';
 import 'builders.dart';
-import '../states/input_state.dart';
-
 
 class FloatingActionButtonBuilder with WidgetBuilderBase {
   @override
@@ -11,10 +10,10 @@ class FloatingActionButtonBuilder with WidgetBuilderBase {
     return FloatingActionButton(
       child: getBuilder(obj['child']).build(context),
       onPressed: () {
-        var inputState = Provider.of<InputState>(context);
+        var actionHandlerRegistry = Provider.of<ActionHandlerRegistry>(context);
         var actions = obj['onPressed']['actions'] != null ? obj['onPressed']['actions'] : [];
         actions.forEach((action) {
-          inputState.performAction(action, context);
+          actionHandlerRegistry.performAction(action, context);
 
         });
       },

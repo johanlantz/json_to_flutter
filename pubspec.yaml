@@ -9,6 +9,8 @@ environment:
 
 dependencies:
   provider: ^2.0.1+1
+  # http is only included for the content_registry_link implementation
+  http: ^0.12.0+2
   flutter:
     sdk: flutter
 

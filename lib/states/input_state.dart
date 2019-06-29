@@ -1,25 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:json_to_flutter/content/content_registry.dart';
+import 'package:json_to_flutter/content/content_handler_registry.dart';
 
 class InputState with ChangeNotifier {
   Map<String, dynamic> inputState = {};
-  Map<String, Function> funcMap = {};
 
-  List<String> navigationStack = [];
+  ContentHandlerRegistry _contentHandlerRegistry;
+  String currentContentKey;
 
-  ContentRegistry _contentRegistry;
-  InputState(ContentRegistry contentRegistry) {
-    _contentRegistry = contentRegistry;
-    funcMap['submit'] = submit;
-    funcMap['navigate'] = navigate;
+  InputState(ContentHandlerRegistry contentRegistry, String rootContentKey) {
+    _contentHandlerRegistry = contentRegistry;
+    currentContentKey = rootContentKey;
   }
   
   dispose() {
     super.dispose();
-    print('Disposing');
+    print('Disposing InputState');
   }
-  
-  /// State handling
   
   dynamic getStateForKey(String key) {
     if (inputState[key] == null) {
@@ -37,53 +33,12 @@ class InputState with ChangeNotifier {
     inputState[key] = value;
   }
 
-  /// Action handling
-
-  performAction(Map<String, dynamic> action, BuildContext context) {
-    funcMap[action['type']](action['data'], context); 
-  }
-
-  navigate(Map<String, dynamic> data, BuildContext context) {
-    if (data['setAsRoot'] == true) {
-      navigationStack = [];
-    }
-
-    if(data['eject'] == true) {
-      Navigator.pushNamed(context, data['destination']);
-    } else {
-      navigationStack.add(data['destination']);
-    }
+  setCurrentContentKey(String key) {
+    currentContentKey = key;
     notifyListeners();
   }
 
-  canPop() {
-    return navigationStack.length > 1;
+  Future<Map<String, dynamic>> getCurrentPage()  async {
+    return await _contentHandlerRegistry.getContent(currentContentKey);
   }
-
-  pop() {
-    if (navigationStack.length > 0) {
-      navigationStack.removeLast();
-      if (navigationStack.length > 0) {
-        notifyListeners();
-        return true;
-      }
-    } 
-    return false;
-  }
-
-  Map<String, dynamic> getCurrentPage()  {
-    return _contentRegistry.getContent(navigationStack.last);
-  }
-
-  setRootPage(String contentKey)  {
-    navigationStack = [contentKey];
-  }
-
-  submit(Map<String, dynamic> data) {
-    inputState.keys.forEach((key) {
-      print('Uploading ${inputState.toString()}');
-    });
-  }
-
-  
 }

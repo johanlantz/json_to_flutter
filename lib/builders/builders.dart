@@ -28,13 +28,6 @@ import 'expanded_builder.dart';
 import 'container_builder.dart';
 import 'align_builder.dart';
 
-
-class DummyBuilder with WidgetBuilderBase{
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold();
-  }
-}
 final Map<String, WidgetBuilderBase> _builderMap = {
     'Scaffold': ScaffoldBuilder(),
     'AppBar': AppBarBuilder(),

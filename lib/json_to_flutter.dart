@@ -1,23 +1,33 @@
 library json_to_flutter;
 
 import 'package:flutter/material.dart';
+import 'package:json_to_flutter/actions/action_handler_registry.dart';
 import 'package:json_to_flutter/builders/builders.dart';
 import 'package:json_to_flutter/states/input_state.dart';
 import 'package:provider/provider.dart';
-
-import 'content/content_registry.dart';
+import 'content/content_handler_registry.dart';
 
 class JSONToFlutter {
-
   /// Get a new dynamic page using contentKey as root
-  /// Provide a custom contentRegistry or use on of the supplied ones in /content
-  static Widget getPage(String contentKey, ContentRegistry contentRegistry) {
-    InputState inputState = InputState(contentRegistry);
-    inputState.setRootPage(contentKey);
-    return ChangeNotifierProvider<InputState>(
-        builder: (context) => inputState, child: _JSONToFlutterPage());
+  ///
+  /// [ContentRegistry] can be a fixed registry or unique one for this page.
+  /// [ActionHandlerRegistry] is a ChangeNotifier and will be disposed when the widget is unloaded so a new instance must
+  /// be provided on each call to this function.
+  static Widget getPage(String contentKey, ContentHandlerRegistry contentRegistry,
+      ActionHandlerRegistry actionHandlerRegistry) {
+    InputState inputState = InputState(contentRegistry, contentKey);
+
+    return MultiProvider(providers: [
+      ChangeNotifierProvider<InputState>(builder: (context) => inputState),
+      ChangeNotifierProvider<ActionHandlerRegistry>(
+          builder: (context) => actionHandlerRegistry)
+    ], child: _JSONToFlutterPage());
   }
 
+  /// Register an external widget
+  ///
+  /// If you have a custom widget you can register its builder here in order to reference it from your json file
+  /// just like any of the standard Flutter Widgets.
   static registerWidget(String widgetName, WidgetBuilderBase builder) {
     registerExternalWidget(widgetName, builder);
   }
@@ -37,12 +47,26 @@ class _JSONToFlutterPageState extends State<_JSONToFlutterPage> {
   @override
   Widget build(BuildContext context) {
     var inputState = Provider.of<InputState>(context);
-    WidgetBuilderBase b = getBuilder(inputState.getCurrentPage());
-    return WillPopScope(
-        onWillPop: () async {
-          bool didPop = inputState.pop();
-          return !didPop;
-        },
-        child: b.build(context));
+    var actionHandlerRegistry = Provider.of<ActionHandlerRegistry>(context);
+    // WidgetBuilderBase b = getBuilder(inputState.getCurrentPage());
+
+    return FutureBuilder<Map<String, dynamic>>(
+        future: inputState.getCurrentPage(),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) {
+            return Container(child: Text("Loading"));
+          }
+          var currentPage = snapshot.data;
+          WidgetBuilderBase b = getBuilder(currentPage);
+          return WillPopScope(
+              onWillPop: () async {
+                bool didPop = await actionHandlerRegistry.performAction({
+                  'type': 'navigate',
+                  'data': {'pop': true}
+                }, context);
+                return !didPop;
+              },
+              child: b.build(context));
+        });
   }
 }

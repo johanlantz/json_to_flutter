@@ -7,7 +7,7 @@ class AppBarBuilder with WidgetBuilderBase {
 
     return AppBar(
       title: getBuilder(obj['title']).build(context),
-      backgroundColor: Color(obj['backgroundColor'])
+      backgroundColor: Color(getNumber(obj['backgroundColor']))
     );
   }
 }
