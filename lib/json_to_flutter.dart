@@ -13,7 +13,9 @@ class JSONToFlutter {
   /// [ContentRegistry] can be a fixed registry or unique one for this page.
   /// [ActionHandlerRegistry] is a ChangeNotifier and will be disposed when the widget is unloaded so a new instance must
   /// be provided on each call to this function.
-  static Widget getPage(String contentKey, ContentHandlerRegistry contentRegistry,
+  static Widget getPage(
+      String contentKey,
+      ContentHandlerRegistry contentRegistry,
       ActionHandlerRegistry actionHandlerRegistry) {
     InputState inputState = InputState(contentRegistry, contentKey);
 
@@ -48,7 +50,6 @@ class _JSONToFlutterPageState extends State<_JSONToFlutterPage> {
   Widget build(BuildContext context) {
     var inputState = Provider.of<InputState>(context);
     var actionHandlerRegistry = Provider.of<ActionHandlerRegistry>(context);
-    // WidgetBuilderBase b = getBuilder(inputState.getCurrentPage());
 
     return FutureBuilder<Map<String, dynamic>>(
         future: inputState.getCurrentPage(),
