@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'content_handler.dart';
 
 /// Keeps track of any kind of content handler implementing [ContentHandler]
@@ -7,10 +9,17 @@ import 'content_handler.dart';
 /// that will add a delay.
 class ContentHandlerRegistry {
   static List<ContentHandler> contentHandlerRegistry = [];
+  
+  /// This controller provides updates about which is the current content served.
+  /// This is not needed for an app since everything is managed internally inside json_to_flutter
+  /// However, an editor or other tool that needs to show information related to the currently 
+  /// served content can subscribe to this controller to know when changes occur.
+  static final currentContentStreamController = StreamController<Map<String, Map<String, dynamic>>>.broadcast();
 
   registerContentHandler(ContentHandler handler) {
     contentHandlerRegistry.add(handler);
   }
+
 
   Future<Map<String, dynamic>> getContent(String key) async {
     Map<String, dynamic> content;
@@ -31,6 +40,9 @@ class ContentHandlerRegistry {
         }
       }
     }
+
+    /// 2.5 Not used by the apps, only by a higher or same level component such as an editor
+    currentContentStreamController.add({key: content});
 
     /// 3. Return content or if still null, default error message
     return content != null
