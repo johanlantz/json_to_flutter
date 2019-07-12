@@ -8,6 +8,7 @@ class InputState with ChangeNotifier {
   String currentContentKey;
 
   InputState(ContentHandlerRegistry contentRegistry, String rootContentKey) {
+    print('Creating new input state for $rootContentKey ${this.hashCode}');
     _contentHandlerRegistry = contentRegistry;
     currentContentKey = rootContentKey;
   }
@@ -39,6 +40,7 @@ class InputState with ChangeNotifier {
   }
 
   Future<Map<String, dynamic>> getCurrentPage()  async {
+    print('Getting current page for ${this.hashCode}');
     return await _contentHandlerRegistry.getContent(currentContentKey);
   }
 }

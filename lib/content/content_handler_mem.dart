@@ -13,4 +13,15 @@ class ContentHandlerMem extends ContentHandler {
   registerContent(String key, value) {
     _contentRegistry[key] = value;
   }
+
+  @override
+  Future<bool> updateContent(String key, value) async {
+    _contentRegistry[key] = value;
+    return true;
+  }
+
+  @override
+  Future<List<String>> getIndex() async {
+    return _contentRegistry.keys.toList();
+  }
 }

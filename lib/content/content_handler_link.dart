@@ -27,4 +27,14 @@ class ContentHandlerLink extends ContentHandler {
   registerContent(String key, dynamic value) {
     _contentRegistry[key] = value;
   }
+
+  @override
+  Future<bool> updateContent(String key, value) async {
+    return false;
+  }
+
+  @override
+  Future<List<String>> getIndex() async {
+   return _contentRegistry.keys.toList();
+  }
 }

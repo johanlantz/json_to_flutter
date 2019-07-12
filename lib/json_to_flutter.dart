@@ -1,5 +1,7 @@
 library json_to_flutter;
 
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:json_to_flutter/actions/action_handler_registry.dart';
 import 'package:json_to_flutter/builders/builders.dart';
@@ -19,11 +21,12 @@ class JSONToFlutter {
       ActionHandlerRegistry actionHandlerRegistry) {
     InputState inputState = InputState(contentRegistry, contentKey);
 
+  // TODO replace number with uuid for key
     return MultiProvider(providers: [
-      ChangeNotifierProvider<InputState>(builder: (context) => inputState),
+      ChangeNotifierProvider<InputState>(key: Key(Random().nextInt(1000).toString()), builder: (context) => inputState),
       ChangeNotifierProvider<ActionHandlerRegistry>(
           builder: (context) => actionHandlerRegistry)
-    ], child: _JSONToFlutterPage());
+    ], child: _JSONToFlutterPage(key: Key(Random().nextInt(1000).toString())));
   }
 
   /// Register an external widget
@@ -36,7 +39,8 @@ class JSONToFlutter {
 }
 
 class _JSONToFlutterPage extends StatefulWidget {
-  _JSONToFlutterPage();
+  _JSONToFlutterPage({Key key})
+      : super(key: key); // Check later if this is really needed for the redraw
 
   @override
   _JSONToFlutterPageState createState() => _JSONToFlutterPageState();
