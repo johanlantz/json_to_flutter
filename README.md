@@ -1,14 +1,9 @@
 # json_to_flutter
 
-A new Flutter package project.
+An experimental library that takes a json file and dynamically turns it into a Flutter app.
 
-## Getting Started
+The json can be fetched locally or for instance from a webserver to get live updates.
 
-This project is a starting point for a Dart
-[package](https://flutter.dev/developing-packages/),
-a library module containing code that can be shared easily across
-multiple Flutter or Dart projects.
+Support for custom native widgets and device navigation is also implemented.
 
-For help getting started with Flutter, view our 
-[online documentation](https://flutter.dev/docs), which offers tutorials, 
-samples, guidance on mobile development, and a full API reference.
+Note that this is an experiment and not in any way meant for production. There is also a corresponding editor project here: https://github.com/johanlantz/json_to_flutter_editor
